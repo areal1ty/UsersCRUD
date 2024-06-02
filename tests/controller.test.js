@@ -9,24 +9,24 @@ app.use(express.json());
 const user1 = {name: 'John Doe', email: 'doe@gmail.com'}
 app.post('/', userController.create);
 
-    describe('POST /', () => {
-        it('should create a new user and return it', async () => {
-            const response = await request(app)
-                .post('/')
-                .send(user1)
-                .expect(201);
+describe('POST /', () => {
+    it('should create a new user and return it', async () => {
+        const response = await request(app)
+            .post('/')
+            .send(user1)
+            .expect(201);
 
-            expect(response.body).toMatchObject(user1);
+        expect(response.body).toMatchObject(user1);
 
-            const savedUser = userService.getById(response.body.id);
-            expect(savedUser).toMatchObject(user1);
-        });
+        const savedUser = userService.getById(response.body.id);
+        expect(savedUser).toMatchObject(user1);
     });
+});
 
 app.get('/', userController.getAll);
 
-    describe('GET /', () => {
-        it('should return all users', async () => {
+describe('GET /', () => {
+    it('should return all users', async () => {
         const response = await request(app).get('/');
         expect(response.status).toBe(200);
         expect(response.body).toEqual(userService.getAll());
@@ -70,7 +70,7 @@ app.delete('/:id', userController.delete);
 
 describe('DELETE /:id', () => {
     it('should delete the user with the given id', async () => {
-        const user = userService.create({name : 'John Doe', email: 'doe@gmail.com'});
+        const user = userService.create({name: 'John Doe', email: 'doe@gmail.com'});
         const response = await request(app).delete(`/${user.id}`);
         expect(response.status).toBe(204);
     });

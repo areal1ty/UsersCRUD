@@ -6,6 +6,10 @@ exports.getAll = () => {
     return users;
 };
 
+exports.clear = () => {
+    users.length = 0;
+};
+
 exports.getById = (id) => {
     return users.find(user => user.id === parseInt(id));
 };
