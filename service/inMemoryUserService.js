@@ -1,38 +1,49 @@
+const Storage = require('../service/storage');
 const User = require('../model/user');
-let users = [];
 let idCounter = 1;
 
-exports.getAll = () => {
-    return users;
-};
+class InMemoryUserService extends Storage {
 
-exports.clear = () => {
-    users.length = 0;
-};
+    constructor() {
+        super();
+        this.users = [];
+    }
 
-exports.getById = (id) => {
-    return users.find(user => user.id === parseInt(id));
-};
 
-exports.create = (userData) => {
-    const newUser = new User(idCounter++, userData.name, userData.email);
-    users.push(newUser);
-    return newUser;
-};
+    getAll = () => {
+        return this.users;
+    };
 
-exports.update = (id, userData) => {
-    const userIndex = users.findIndex(user => user.id === parseInt(id));
-    if (userIndex !== -1) {
-        users[userIndex].name = userData.name;
-        users[userIndex].email = userData.email;
-        return users[userIndex];
-    } else return null;
-};
+    clear = () => {
+        this.users.length = 0;
+    };
 
-exports.delete = (id) => {
-    const userIndex = users.findIndex(user => user.id === parseInt(id));
-    if (userIndex !== -1) {
-        users.splice(userIndex, 1);
-        return true;
-    } else return false;
+    getById = (id) => {
+        return this.users.find(user => user.id === parseInt(id));
+    };
+
+    create = (userData) => {
+        const newUser = new User(idCounter++, userData.name, userData.email);
+        this.users.push(newUser);
+        return newUser;
+    };
+
+    update = (id, userData) => {
+        const userIndex = this.users.findIndex(user => user.id === parseInt(id));
+        if (userIndex !== -1) {
+            this.users[userIndex].name = userData.name;
+            this.users[userIndex].email = userData.email;
+            return this.users[userIndex];
+        } else return null;
+    };
+
+    delete = (id) => {
+        const userIndex = this.users.findIndex(user => user.id === parseInt(id));
+        if (userIndex !== -1) {
+            this.users.splice(userIndex, 1);
+            return true;
+        } else return false;
+    }
 }
+
+module.exports = InMemoryUserService;

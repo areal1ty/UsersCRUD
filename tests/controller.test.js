@@ -3,7 +3,6 @@ const express = require('express');
 const userController = require('../controller/userController');
 const userService = require('../service/inMemoryUserService');
 
-
 const app = express();
 app.use(express.json());
 const user1 = {name: 'John Doe', email: 'doe@gmail.com'}
