@@ -18,29 +18,29 @@ class dbUserService extends Storage {
 
     async create(user) {
         const result = await pool.query(
-            'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
+            'INSERT INTO userData (name, email) VALUES ($1, $2) RETURNING *',
             [user.name, user.email]
         );
         return {id: result.rows[0].id, name: result.rows[0].name, email: result.rows[0].email};
     }
 
     async clear() {
-        await pool.query('DELETE FROM users');
+        await pool.query('DELETE FROM userData');
     }
 
     async getAll() {
-        const result = await pool.query('SELECT * FROM users');
+        const result = await pool.query('SELECT * FROM userData');
         return result.rows;
     }
 
     async getById(id) {
-        const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+        const result = await pool.query('SELECT * FROM userData WHERE id = $1', [id]);
         return result.rows[0];
     }
 
     async update(id, user) {
         const result = await pool.query(
-            'UPDATE users SET name = $1, email = $2 WHERE id = $3',
+            'UPDATE userData SET name = $1, email = $2 WHERE id = $3',
             [user.name, user.email, id]
         );
         if (result.rowCount !== 0) {
@@ -50,7 +50,7 @@ class dbUserService extends Storage {
 
     async delete(id) {
         try {
-            const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
+            const result = await pool.query('DELETE FROM userData WHERE id = $1 RETURNING *', [id]);
             return result.rowCount > 0;
         } catch (error) {
             return false;
